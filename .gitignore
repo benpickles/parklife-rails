@@ -1,0 +1,13 @@
+/Gemfile.lock
+/.bundle/
+/.yardoc
+/_yardoc/
+/coverage/
+/doc/
+/gemfiles/*.gemfile.lock
+/pkg/
+/spec/reports/
+/tmp/
+
+# rspec failure tracking
+/spec/examples.txt
