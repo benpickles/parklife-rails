@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+require 'fileutils'
 require 'parklife'
 require 'rails'
 require_relative 'config_refinements'
@@ -6,8 +7,8 @@ require_relative 'route_set_refinements'
 
 module Parklife
   module Rails
-    class Railtie < ::Rails::Railtie
-      initializer 'parklife.integration' do |app|
+    class BuildIntegration < ::Rails::Railtie
+      initializer 'parklife.build_integration' do |app|
         # The offending middleware is included in Rails (6+) development mode and
         # rejects a request with a 403 response if its host isn't present in the
         # allowlist (a security feature). This prevents Parklife from working in
@@ -48,6 +49,24 @@ module Parklife
         Parklife.application.config.base.host = host if host
         Parklife.application.config.base.port = port if port
         Parklife.application.config.base.path = path if path
+
+        # If the host Rails app includes Parklife's ActiveStorage integration
+        # then automatically collect attachments encountered during a build and
+        # copy them to the build directory.
+        if defined?(Parklife::Rails::ActiveStorage)
+          Parklife.application.before_build do
+            ActiveStorage.collected_assets.clear
+            ActiveStorage.collect_assets = true
+          end
+
+          Parklife.application.after_build do
+            ActiveStorage.collected_assets.each_value do |asset|
+              build_path = File.join(Parklife.application.config.build_dir, asset.url)
+              FileUtils.mkdir_p(File.dirname(build_path))
+              FileUtils.cp(asset.blob_path, build_path)
+            end
+          end
+        end
       end
     end
   end
