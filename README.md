@@ -14,7 +14,7 @@ Parklife's ActiveStorage integration allows you to use ActiveStorage as normal i
 
 Enable the engine at the bottom of `config/application.rb`:
 
-> [!IMPORTANT]
+> [!NOTE]
 > This must be done before the app boots so can't be in an initializer.
 
 ```ruby
