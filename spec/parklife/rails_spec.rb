@@ -1,5 +1,6 @@
 require 'action_controller'
 require 'parklife/application'
+require 'parklife/rails/build_integration'
 
 RSpec.describe 'Parklife Rails integration' do
   let(:parklife_app) { Parklife::Application.new }
