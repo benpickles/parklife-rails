@@ -61,7 +61,7 @@ module Parklife
 
           Parklife.application.after_build do
             ActiveStorage.collected_assets.each_value do |asset|
-              build_path = File.join(Parklife.application.config.build_dir, asset.url)
+              build_path = File.join(Parklife.application.config.build_dir, asset.path)
               FileUtils.mkdir_p(File.dirname(build_path))
               FileUtils.cp(asset.blob_path, build_path)
             end

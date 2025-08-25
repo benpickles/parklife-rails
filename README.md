@@ -12,7 +12,7 @@ gem 'parklife-rails'
 
 Parklife's ActiveStorage integration allows you to use ActiveStorage as normal in development, then during a Parklife build any encountered attachments are collected and copied to the build directory so they can be served alongside the rest of your static files. This is achieved via a Rails Engine and custom ActiveStorage DiskService which work together to tweak ActiveStorage URLs so they're suitable for a static web server.
 
-Enable the engine at the bottom of `config/application.rb`:
+Enable the engine in `config/application.rb`:
 
 > [!NOTE]
 > This must be done before the app boots so can't be in an initializer.
@@ -29,12 +29,32 @@ local:
   root: <%= Rails.root.join("storage") %>
 ```
 
-Finally anywhere an attachment is referenced make sure to use the `processed` URL:
+Finally, use ActiveStorage (almost entirely) as usual:
 
 ```ruby
-image_tag(
-  blog_post.hero_image.representation(:medium).processed.url
+# Pass a blob/attachment/preview/variant directly to helpers as usual:
+image_tag(blog_post.hero_image.variant(:medium))
+# => "<img src="/parklife/blobs/6adews39uehd44spynetigykwssh/cute-cat.jpg" />"
+
+# Ask a variant for its path:
+blog_post.hero_image.variant(:medium).processed.url
+# => "/parklife/blobs/6adews39uehd44spynetigykwssh/cute-cat.jpg"
+
+# Use the route helper:
+Rails.application.routes.url_helpers.parklife_blob_path(
+  blog_post.hero_image.variant(:medium)
 )
+# => "/parklife/blobs/6adews39uehd44spynetigykwssh/cute-cat.jpg"
+```
+
+The only quirk is if you want to generate the full URL (including hostname etc), in that case `parklife_blob_url` doesn't behave as you'd expect and you must also pass `only_path: false`:
+
+```ruby
+Rails.application.routes.url_helpers.parklife_blob_url(
+  blog_post.hero_image.variant(:medium),
+  only_path: false,
+)
+# => "http://example.com/parklife/blobs/6adews39uehd44spynetigykwssh/cute-cat.jpg"
 ```
 
 ## Contributing

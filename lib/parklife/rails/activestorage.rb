@@ -2,7 +2,7 @@
 module Parklife
   module Rails
     module ActiveStorage
-      Asset = Struct.new(:service, :key, :url) do
+      Asset = Struct.new(:service, :key, :path) do
         def blob_path
           service.path_for(key)
         end
@@ -22,8 +22,8 @@ module Parklife
       mattr_accessor :collected_assets, default: {}
       mattr_accessor :routes_prefix, default: 'parklife'
 
-      def self.collect_asset(service, key, url)
-        collected_assets[key] ||= Asset.new(service, key, url)
+      def self.collect_asset(service, key, path)
+        collected_assets[key] ||= Asset.new(service, key, path)
       end
     end
   end
