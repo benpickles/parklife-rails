@@ -4,9 +4,9 @@ require 'active_storage/service/disk_service'
 module ActiveStorage
   class Service::ParklifeService < Service::DiskService
     def url(key, **options)
-      super.tap do |url|
+      super.tap do |path|
         if Parklife::Rails::ActiveStorage.collect_assets
-          Parklife::Rails::ActiveStorage.collect_asset(self, key, url)
+          Parklife::Rails::ActiveStorage.collect_asset(self, key, path)
         end
       end
     end
