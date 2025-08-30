@@ -1,3 +1,11 @@
+<% if @post.hero.attached? %>
+  <div>
+    <%= image_tag(
+      @post.hero.variant(resize_to_limit: [100, 100]).processed.url
+    ) %>
+  </div>
+<% end %>
+
 <h1><%= @post.title %></h1>
 
 <%= simple_format @post.body %>
