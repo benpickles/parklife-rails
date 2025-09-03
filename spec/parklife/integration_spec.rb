@@ -56,4 +56,35 @@ RSpec.describe 'Integration tests' do
     expect(status).to be_success
     expect(stdout).not_to include('ActionDispatch::HostAuthorization')
   end
+
+  it 'builds successfully and includes encountered ActiveStorage blobs' do
+    skip('FIXME: get me working on CI') if ENV['CI']
+
+    env = { 'RAILS_ENV' => 'development' }
+
+    stdout, status = parklife('build', env)
+    expect(status).to be_success
+    expect(stdout).not_to be_empty
+
+    Dir.chdir('example-app/build') do
+      build_files = Dir
+        .glob('**/*')
+        .select { |it| File.file?(it) }
+
+      # HTML pages.
+      expect(build_files).to include(
+        'index.html',
+        'posts/hello-again/index.html',
+        'posts/hello-from-parklife/index.html',
+        'posts/magic-number/index.html',
+      )
+
+      # ActiveStorage blobs.
+      expect(
+        build_files
+          .select { |it| it.end_with?('/plasma.jpg') }
+          .size
+      ).to be(2)
+    end
+  end
 end
