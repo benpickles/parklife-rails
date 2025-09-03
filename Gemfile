@@ -8,3 +8,7 @@ gem 'appraisal'
 gem 'rake'
 gem 'rspec'
 gem 'rubocop'
+
+# For the example app tests.
+gem 'sprockets-rails'
+gem 'sqlite3'

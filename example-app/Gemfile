@@ -1,9 +1,9 @@
 source 'https://rubygems.org'
 
-gem 'rails', '~> 8.0.1'
+gem 'parklife-rails', path: '../'
+
 gem 'sprockets-rails'
 gem 'sqlite3'
-gem 'parklife-rails', path: '../'
 
 group :development do
   gem 'webrick'
