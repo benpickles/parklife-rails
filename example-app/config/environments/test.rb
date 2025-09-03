@@ -28,6 +28,9 @@ Rails.application.configure do
   # Disable request forgery protection in test environment.
   config.action_controller.allow_forgery_protection = false
 
+  # Store uploaded files on the local file system in a temporary directory.
+  config.active_storage.service = :test
+
   # Print deprecation notices to the stderr.
   config.active_support.deprecation = :stderr
 
@@ -36,7 +39,4 @@ Rails.application.configure do
 
   # Annotate rendered view with file names.
   # config.action_view.annotate_rendered_view_with_filenames = true
-
-  # Raise error when a before_action's only/except options reference missing actions.
-  config.action_controller.raise_on_missing_callback_actions = true
 end
