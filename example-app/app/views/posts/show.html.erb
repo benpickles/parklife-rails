@@ -1,8 +1,16 @@
 <% if @post.hero.attached? %>
   <div>
-    <%= image_tag(
-      @post.hero.variant(resize_to_limit: [100, 100]).processed.url
-    ) %>
+    <% if @post.hero.image? %>
+      <%= image_tag(@post.hero.variant(resize_to_limit: [200, 200])) %>
+    <% elsif @post.hero.video? %>
+      <%= video_tag(
+        @post.hero,
+        controls: true,
+        poster: @post.hero.preview(resize_to_limit: [100, 100]).processed.url,
+        preload: 'none',
+        size: '200x200',
+      ) %>
+    <% end %>
   </div>
 <% end %>
 

@@ -7,10 +7,10 @@ jobs:
     runs-on: ubuntu-latest
     name: Example Rails app
     steps:
-    - name: Install libvips
+    - name: Install ffmpeg/libvips
       run: |
         sudo apt-get update
-        sudo apt-get install --no-install-recommends libvips
+        sudo apt-get install --no-install-recommends ffmpeg libvips
     - uses: actions/checkout@v3
     - uses: ruby/setup-ruby@v1
       with:
@@ -56,10 +56,10 @@ jobs:
       BUNDLE_GEMFILE: gemfiles/rails_${{ matrix.rails }}.gemfile
     name: RSpec (Ruby ${{ matrix.ruby }} / Rails ${{ matrix.rails }})
     steps:
-    - name: Install libvips
+    - name: Install ffmpeg/libvips
       run: |
         sudo apt-get update
-        sudo apt-get install --no-install-recommends libvips
+        sudo apt-get install --no-install-recommends ffmpeg libvips
     - uses: actions/checkout@v4
     - uses: ruby/setup-ruby@v1
       with:

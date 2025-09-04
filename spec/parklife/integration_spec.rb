@@ -1,6 +1,6 @@
 require 'open3'
 
-RSpec.describe 'Integration tests' do
+RSpec.describe 'Integration tests', :aggregate_failures do
   def command(cmd, env = {})
     env = { 'RAILS_ENV' => 'test' }.merge(env)
 
@@ -58,7 +58,12 @@ RSpec.describe 'Integration tests' do
   end
 
   it 'builds successfully and includes encountered ActiveStorage blobs' do
-    env = { 'RAILS_ENV' => 'development' }
+    skip if Rails::VERSION::STRING < '7.1'
+
+    env = {
+      'PARKLIFE_TEST_ACTIVESTORAGE' => 'yes',
+      'RAILS_ENV' => 'development',
+    }
 
     stdout, status = parklife('build', env)
     expect(status).to be_success
@@ -71,18 +76,26 @@ RSpec.describe 'Integration tests' do
 
       # HTML pages.
       expect(build_files).to include(
-        'index.html',
-        'posts/hello-again/index.html',
-        'posts/hello-from-parklife/index.html',
-        'posts/magic-number/index.html',
+        'test/activestorage/index.html',
       )
 
-      # ActiveStorage blobs.
+      # ActiveStorage.
       expect(
         build_files
-          .select { |it| it.end_with?('/plasma.jpg') }
-          .size
-      ).to be(2)
+          .select { |it| it.start_with?('parklife/') }
+          .map { |it| it.split('/').last }
+      ).to contain_exactly(
+        # Both Attachment and Blob are the same object/blob.
+        'image1.jpg',
+
+        # The Video, its `processed.url` poster, and the Preview.
+        'video3.mp4',
+        'video3.jpg',
+        'video3.jpg',
+
+        # Variant.
+        'image1.jpg',
+      )
     end
   end
 end

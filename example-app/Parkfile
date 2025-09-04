@@ -6,7 +6,7 @@ Parklife.application.configure do |config|
 end
 
 Parklife.application.routes do
-  root crawl: true
+  root(crawl: true) unless ENV['PARKLIFE_TEST_ACTIVESTORAGE']
 
   # Add further paths not discovered by crawling from the root - Parklife's
   # Rails integration lets you use the app's route helpers:
@@ -17,8 +17,7 @@ Parklife.application.routes do
   # Services typically allow a custom 404 page.
   # get '/404.html'
 
-  if ENV['RAILS_ENV'] == 'test'
-    get test_middleware_path
-    get test_url_path
-  end
+  get test_activestorage_path
+  get test_middleware_path
+  get test_url_path
 end
