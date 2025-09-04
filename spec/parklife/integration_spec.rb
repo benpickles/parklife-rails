@@ -58,8 +58,6 @@ RSpec.describe 'Integration tests' do
   end
 
   it 'builds successfully and includes encountered ActiveStorage blobs' do
-    skip('FIXME: get me working on CI') if ENV['CI']
-
     env = { 'RAILS_ENV' => 'development' }
 
     stdout, status = parklife('build', env)

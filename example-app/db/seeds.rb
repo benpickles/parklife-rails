@@ -13,5 +13,5 @@ Rails.root.join('data').children.each_with_index do |path, i|
   post.hero.attach(
     filename: 'plasma.jpg',
     io: File.open(plasma_path),
-  ) if i.odd?
+  ) if i.even?
 end
