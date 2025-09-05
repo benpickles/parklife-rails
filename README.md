@@ -34,7 +34,9 @@ Finally, use ActiveStorage (almost entirely) as usual:
 ```ruby
 # Pass a blob/attachment/preview/variant directly to helpers as usual:
 image_tag(blog_post.hero_image.variant(:medium))
-# => "<img src="/parklife/blobs/6adews39uehd44spynetigykwssh/cute-cat.jpg" />"
+# => <img src="/parklife/blobs/6adews39uehd44spynetigykwssh/cute-cat.jpg" />
+video_tag(product.intro_video)
+# => <video src="/parklife/blobs/x74tu8izjv141l8503gwkkruokca/cat-mug.mp4"></video>
 
 # Ask a variant for its path:
 blog_post.hero_image.variant(:medium).processed.url
