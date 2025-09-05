@@ -1,0 +1,22 @@
+<h1>ActiveStorage integration</h1>
+
+<h2>Attachment</h2>
+<%= image_tag(@post1.hero) %>
+
+<h2>Attachment - Video</h2>
+<%= video_tag(
+  @post3.hero,
+  controls: true,
+  poster: @post3.hero.preview(resize_to_limit: [50, 50]).processed.url,
+  preload: 'none',
+  size: '300x300',
+) %>
+
+<h2>Blob</h2>
+<%= image_tag(@post1.hero.blob) %>
+
+<h2>Preview</h2>
+<%= image_tag(@post3.hero.preview(resize_to_limit: [100, 100])) %>
+
+<h2>Variant</h2>
+<%= image_tag(@post1.hero.variant(resize_to_limit: [100, 100])) %>

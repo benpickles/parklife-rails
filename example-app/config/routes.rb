@@ -3,6 +3,7 @@ Rails.application.routes.draw do
 
   resources :posts
 
+  get 'test/activestorage', to: 'test#activestorage'
   get 'test/middleware', to: 'test#middleware'
   get 'test/url', to: 'test#url'
 end
