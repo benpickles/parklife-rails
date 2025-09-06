@@ -1,5 +1,7 @@
 # Parklife::Rails
 
+[![Ruby](https://github.com/benpickles/parklife-rails/actions/workflows/main.yml/badge.svg)](https://github.com/benpickles/parklife-rails/actions/workflows/main.yml)
+
 ## Installation
 
 Add the gem to your application's `Gemfile`:
