@@ -2,13 +2,69 @@
 
 [![Ruby](https://github.com/benpickles/parklife-rails/actions/workflows/main.yml/badge.svg)](https://github.com/benpickles/parklife-rails/actions/workflows/main.yml)
 
-## Installation
+A Rails app is a Rack app and as such things Just Work™, Parklife's Rails integration includes a few enhancements to make life easier and provides ActiveStorage integration so you can continue using the knowledge and tools you already have.
+
+## Getting started
 
 Add the gem to your application's `Gemfile`:
 
 ```bash
 gem 'parklife-rails'
 ```
+
+Parklife is configured with a file called `Parkfile` in the root of your project, here's an example `Parkfile` for an imaginary Rails app:
+
+```ruby
+# Load your application, this activates the Parklife/Rails integration and gives
+# you access to route helpers and models in this file.
+require_relative 'config/environment'
+
+Parkfile.application.routes do
+  # Start from the homepage and crawl all links.
+  root crawl: true
+
+  # Some extra paths that aren't discovered while crawling.
+  get feed_path(format: :atom)
+  get sitemap_path(format: :xml)
+
+  # A couple more hidden pages.
+  get easter_egg_path, crawl: true
+
+  # Services typically allow a custom 404 page.
+  get '/404.html'
+end
+```
+
+Listing the routes included in the above Parklife application with `parklife routes` would output the following:
+
+```
+$ bundle exec parklife routes
+/             crawl=true
+/feed.atom
+/sitemap.xml
+/easter_egg   crawl=true
+/404.html
+```
+
+Now you can run `parklife build` which will fetch all the routes and save them to the `build` directory ready to be served as a static site. Inspecting the build directory might look like this:
+
+```
+$ find build -type f
+build/404.html
+build/about/index.html
+build/blog/2019/03/07/developers-developers-developers/index.html
+build/blog/2019/04/21/modern-life-is-rubbish/index.html
+build/blog/2019/05/15/introducing-parklife/index.html
+build/blog/index.html
+build/easter_egg/index.html
+build/easter_egg/surprise/index.html
+build/feed.atom
+build/index.html
+build/location/index.html
+build/sitemap.xml
+```
+
+Parklife doesn't know about assets (images, CSS, etc) so you likely also need to generate those and copy them to the build directory, see the [example app's full build script](example-app/bin/static-build) for how you might do this.
 
 ## ActiveStorage integration
 
