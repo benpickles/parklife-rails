@@ -70,10 +70,7 @@ Parklife doesn't know about assets (images, CSS, etc) so you likely also need to
 
 Parklife's ActiveStorage integration allows you to use ActiveStorage as normal in development, then during a Parklife build any encountered attachments are collected and copied to the build directory so they can be served alongside the rest of your static files. This is achieved via a Rails Engine and custom ActiveStorage DiskService which work together to tweak ActiveStorage URLs so they're suitable for a static web server.
 
-Enable the engine in `config/application.rb`:
-
-> [!NOTE]
-> This must be done before the app boots so can't be in an initializer.
+Enable the engine in `config/application.rb` (this must be done before the app boots so can't be in an initializer):
 
 ```ruby
 require 'parklife-rails/activestorage'
