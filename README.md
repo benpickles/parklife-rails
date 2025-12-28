@@ -114,6 +114,22 @@ Rails.application.routes.url_helpers.parklife_blob_url(
 # => "http://example.com/parklife/blobs/6adews39uehd44spynetigykwssh/cute-cat.jpg"
 ```
 
+## Development
+
+The [appraisal](https://github.com/thoughtbot/appraisal) gem is used to test this library against different versions of Rails.
+
+Install gems for all appraisal groups:
+
+```
+bundle exec appraisal install
+```
+
+Run the tests against a single version of Rails:
+
+```
+bundle exec appraisal rails_7.1 rspec
+```
+
 ## Contributing
 
 Bug reports and pull requests are welcome on GitHub at <https://github.com/benpickles/parklife-rails>. This project is intended to be a safe, welcoming space for collaboration, and contributors are expected to adhere to the [code of conduct](https://github.com/benpickles/parklife-rails/blob/main/CODE_OF_CONDUCT.md).
