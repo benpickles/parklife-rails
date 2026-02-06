@@ -1,4 +1,6 @@
 # frozen_string_literal: true
+require_relative 'blob_modifications'
+
 module Parklife
   module Rails
     module ActiveStorage
